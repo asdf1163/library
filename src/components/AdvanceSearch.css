@@ -1,0 +1,59 @@
+.advanceSearch {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #000000d7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.searchField {
+  width: 100%;
+  height: 70%;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 30px;
+}
+
+.searchField--label {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  height: 90%;
+  /* font-size: 20px; */
+}
+
+.searchField--fill {
+  height: 40px;
+  border: none;
+  border-radius: 8px;
+  padding: 5px;
+  background-color: gray;
+  font-size: 20px;
+}
+
+.searchField--fill::placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(56, 56, 56);
+  font-size: 20px;
+}
+
+.searchField--submit{
+  color:white;
+  background-color: inherit;
+  cursor: pointer;
+  border:none;
+}
+
+.exitSign {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  color: white;
+}

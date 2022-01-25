@@ -1,38 +1,208 @@
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
   min-height: 100vh;
+  background-color: #d9a91a;
+}
+
+.more {
   display: flex;
-  flex-direction: column;
+  width: 25px;
+  justify-content: space-between;
+  padding: 10px 10px;
+}
+
+.circle {
+  height: 7px;
+  width: 7px;
+  background-color: gray;
+  border-radius: 15px;
+}
+
+.navbar {
+  position: relative;
+  display: flex;
+  background-color: rgb(68, 42, 20);
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 60px;
+}
+
+.navbar__logo {
+  width: 20%;
+  color: white;
+  font-size: 20px;
+}
+
+.navbar__logo p {
+  margin-left: 25px;
+}
+
+.navbar__search {
+  width: 75%;
+  height: 2rem;
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+}
+
+.navbar__search--base {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: inherit;
+  height: inherit;
+  background: rgb(136, 136, 136);
+  border: none;
+  border-radius: 8px;
+  padding: 0 5px;
+}
+
+.navbar__search--input {
+  width: 90%;
+  height: inherit;
+  background: rgb(136, 136, 136);
+  border: none;
+  border-radius: 8px;
+  padding: 0 5px;
+  outline: none;
+}
+
+.navbar__search--button {
+  display: flex;
+  color: rgb(66, 65, 65);
+  border: none;
+  background-color: inherit;
+  cursor: pointer;
+}
+
+.navbar__search--input::placeholder {
+  text-align: center;
+  color: rgb(66, 65, 65);
+}
+
+.navbar__userprofile {
+  display: flex;
+  justify-content: flex-end;
+  width: 20%;
+}
+
+.navbar__userprofile--button {
+  width: 40px;
+  height: 40px;
+  background-color: gray;
+  border-radius: 25px;
+  margin-right: 25px;
+}
+
+.main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  height: auto;
+  margin-top: 15px;
+  width: 100%;
+}
+
+.nothing {
+  height: 80vh;
+  display: flex;
+  align-items: center;
+}
+
+.nothing__information {
+  height: auto;
+  background: #8c5b00;
+  font-size: 50px;
+  padding: 20px;
+  border-radius: 25px;
+}
+
+/* wpis na stronie powinien składać się z obrazka okładki, tytułu i skróconego do kilkunastu wyrazów opisu */
+/* .container {
+  height: auto;
+  width: 200px;
+  background-color: khaki;
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+}
+.container__cover {
+  height: 280px;
+  width: inherit;
+}
+
+.container__cover img {
+  width: inherit;
+  height: inherit;
+}
+
+.container__title {
+  height: auto;
+  margin: 5px 10px;
+}
+
+.container__description {
+  position: absolute;
+  height: 280px;
+  width: 200px;
+  background: #000000bf;
+  overflow: hidden;
   color: white;
+  opacity: 0;
 }
 
-.App-link {
-  color: #61dafb;
+.container__description:hover {
+  opacity: 1;
+  display: block;
+} */
+
+.lineBetween {
+  width: 95%;
+  background: #57300e;
+  height: 2px;
+  margin: 20px 0px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.container {
+  min-height: 250px;
+  width: 90%;
+  display: flex;
+  margin: 5px 0;
+}
+
+.container__cover {
+  position: relative;
+  height: 250px;
+  width: 20%;
+}
+
+.container__cover img {
+  height: 250px;
+  max-width: 200px;
+}
+
+.container__details {
+  padding: 0 20px;
+  width: 80%;
+}
+
+.container__author {
+  color: white;
+  font-size: 15px;
+  overflow: hidden;
+  word-break: normal;
+  font-style: italic;
+}
+
+.container__title {
+  height: auto;
+  text-transform: uppercase;
+  font-size: 25px;
+  font-weight: 700;
+  color: #584604;
+}
+
+.container__description {
+  position: relative;
+  /* font-size: 16px; */
 }
