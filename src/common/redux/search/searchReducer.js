@@ -1,5 +1,6 @@
 import {
   GET_DATA_QUERY,
+  UPDATE_DATA_QUERY,
   SUCCESS_DATA_QUERY,
   FAILED_DATA_QUERY,
 } from "./searchType";
@@ -17,6 +18,15 @@ export const searchReducer = (state = initial, action) => {
         ...state,
         isLoading: true,
       };
+    case UPDATE_DATA_QUERY:
+      console.log('books',state.books)
+      console.log('payload',action.payload)
+      return {
+        ...state,
+        isLoading: false,
+        books: [...state.books, ...action.payload],
+        error: "",
+      };
     case SUCCESS_DATA_QUERY:
       return {
         isLoading: false,
@@ -26,7 +36,7 @@ export const searchReducer = (state = initial, action) => {
     case FAILED_DATA_QUERY:
       return {
         isLoading: false,
-        // books: [],
+        books: [],
         error: action.payload,
       };
     default: {

@@ -8,6 +8,7 @@
   width: 25px;
   justify-content: space-between;
   padding: 10px 10px;
+  cursor: pointer;
 }
 
 .circle {
@@ -117,6 +118,13 @@
   border-radius: 25px;
 }
 
+.book {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+
 /* wpis na stronie powinien składać się z obrazka okładki, tytułu i skróconego do kilkunastu wyrazów opisu */
 /* .container {
   height: auto;
@@ -179,6 +187,9 @@
 .container__cover img {
   height: 250px;
   max-width: 200px;
+  min-width: 150px;
+  width: 100%;
+  
 }
 
 .container__details {
@@ -205,4 +216,22 @@
 .container__description {
   position: relative;
   /* font-size: 16px; */
+}
+
+@media screen and (max-width: 500px) {
+  .navbar__logo p {
+    margin-left: 0;
+  }
+
+  .navbar__userprofile {
+    width: unset;
+  }
+  .navbar__userprofile--button {
+    margin-right: 0;
+  }
+
+  .nothing__information {
+    text-align: center;
+    margin: 0 8vw;
+  }
 }
