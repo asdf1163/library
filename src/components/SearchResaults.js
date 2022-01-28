@@ -1,9 +1,21 @@
 import MoreData from "./MoreData";
 
 const SearchResaults = ({ searchData, setLoadedElements }) => {
+
+  const data = "Lorem ipsum asdf asdfklj cos bla"
+  const truncateWords = (data) => {
+      const dataSplit = data.split(" ")
+      // let fewWords
+      const sliceTable = dataSplit.slice(0,40)
+      let connectWord = '';
+      sliceTable.map( state => connectWord =  `${connectWord} ${state}`)
+      connectWord += '...'
+      return connectWord
+  }
+  
   return (
     <div className="main">
-      {searchData && searchData.books ?(
+      {searchData.books ?(
         <>
           {searchData.books.map((book) => (
             <div className="container" key={`${book.id + book.etag}container`}>
@@ -40,7 +52,7 @@ const SearchResaults = ({ searchData, setLoadedElements }) => {
                     </div>
                   )}
                   <div className="book__description">
-                    {book.volumeInfo.description}
+                    {book.volumeInfo.description &&  truncateWords(book.volumeInfo.description)}
                   </div>
                 </div>
               </div>
