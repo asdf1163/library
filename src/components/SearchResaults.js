@@ -5,7 +5,6 @@ const SearchResaults = ({ searchData, setLoadedElements }) => {
   const data = "Lorem ipsum asdf asdfklj cos bla"
   const truncateWords = (data) => {
       const dataSplit = data.split(" ")
-      // let fewWords
       const sliceTable = dataSplit.slice(0,40)
       let connectWord = '';
       sliceTable.map( state => connectWord =  `${connectWord} ${state}`)
