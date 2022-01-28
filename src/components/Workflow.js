@@ -1,39 +1,35 @@
 import { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { fetchSearchData } from "../common/redux/search/searchAction";
+import {
+  fetchSearchData,
+  updateQueryParams,
+} from "../common/redux/search/searchAction";
 import AdvanceSearch from "./AdvanceSearch";
 import Navbar from "./Navbar";
 import SearchResaults from "./SearchResaults";
 
-const Workflow = ({ fetchSearchData }) => {
+const Workflow = ({ searchData, fetchSearchData, updateQueryParams }) => {
   const [loadedElements, setLoadedElements] = useState(0);
-  const [previousQuery, setPreviousQuery] = useState();
-
   const [searchQueryBasic, setSearchQueryBasic] = useState("*");
   const [advanceSearch, setAdvanceSearch] = useState(false);
 
-  // const query = new URLSearchParams(window.location.search);
-  // console.log("queryNowe", query.get("q"));
+  useEffect(() => {
+    updateQueryParams({ q: searchQueryBasic, startIndex: loadedElements });
+    fetchSearchData("update");
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loadedElements]);
 
   const createQueryBasic = (event, data) => {
     event.preventDefault();
-    const queryFromNav = data;
-    if (queryFromNav !== "" && queryFromNav.length >= 3) {
-      setSearchQueryBasic(queryFromNav);
-      fetchSearchData(queryFromNav);
-    }
+    setSearchQueryBasic(data);
+    updateQueryParams({ q: data, startIndex: 0 });
+    fetchSearchData("get");
+    setLoadedElements(10);
   };
 
-  let URL = `${searchQueryBasic}&startIndex=${loadedElements}`;
-  useEffect(() => {
-    if (previousQuery === searchQueryBasic) {
-      fetchSearchData(URL, "update");
-    } else {
-      setPreviousQuery(searchQueryBasic);
-      setLoadedElements(0);
-      fetchSearchData(URL, "get");
-    }
-  }, [URL, fetchSearchData, loadedElements]);
+  advanceSearch
+    ? (document.body.style.overflow = "hidden")
+    : (document.body.style.overflow = "visible");
 
   return (
     <>
@@ -48,14 +44,12 @@ const Workflow = ({ fetchSearchData }) => {
         createQueryBasic={createQueryBasic}
       />
       <SearchResaults
-        searchQueryBasic={searchQueryBasic}
-        loadedElements={loadedElements}
+        searchData={searchData}
         setLoadedElements={setLoadedElements}
       />
     </>
   );
 };
-
 const mapStateToProps = (state) => {
   return {
     searchData: state.searchList,
@@ -65,6 +59,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchSearchData: (url, type) => dispatch(fetchSearchData(url, type)),
+    updateQueryParams: (params) => dispatch(updateQueryParams(params)),
   };
 };
 

@@ -1,6 +1,7 @@
 import { bookListCreate } from "../../api/bookApi";
 import {
   GET_DATA_QUERY,
+  UPDATE_QUERY_PARAMS,
   UPDATE_DATA_QUERY,
   SUCCESS_DATA_QUERY,
   FAILED_DATA_QUERY,
@@ -9,6 +10,13 @@ import {
 export const getDataQuery = () => {
   return {
     type: GET_DATA_QUERY,
+  };
+};
+
+export const updateQueryParams = (params) => {
+  return {
+    type: UPDATE_QUERY_PARAMS,
+    payload: params,
   };
 };
 
@@ -33,18 +41,25 @@ export const failedDataQuery = (error) => {
   };
 };
 
-export const fetchSearchData = (query, type) => {
-  return (dispatch) => {
-    dispatch(getDataQuery())
-    bookListCreate
-      .get(query)
+export const fetchSearchData = (type) => {
+  return (dispatch, getState) => {
+    const { q, startIndex } = getState().searchList.queryParams;
+    dispatch(getDataQuery());
+    const query = `?q=${q}&startIndex=${startIndex}`;
+    bookListCreate({
+      method: "get",
+      url: query,
+    })
       .then((response) => {
-        console.log(response.data.items);
-        type === 'get'&& dispatch(successDataQuery(response.data.items));
-        type === 'update'&& dispatch(updateDataQuery(response.data.items));
+        const items = response.data.items;
+        if (items) {
+          if (type === "get") dispatch(successDataQuery(items));
+          if (type === "update") dispatch(updateDataQuery(items));
+        } else {
+          dispatch(failedDataQuery(items));
+        }
       })
       .catch((error) => {
-        console.log(error);
         const errorMsg = error.message;
         dispatch(failedDataQuery(errorMsg));
       });

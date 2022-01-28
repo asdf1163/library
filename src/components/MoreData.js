@@ -1,11 +1,8 @@
 import { useEffect } from "react";
 
-const MoreData = ({ loadedElements, setLoadedElements }) => {
+const MoreData = ({ setLoadedElements }) => {
   const loadMoreBooks = () => {
-    if (loadedElements <= 100) {
-      return setLoadedElements((state) => state + 10);
-    }
-    return console.log("wiecej");
+    return setLoadedElements((state) => state + 10);
   };
 
   const handleScroll = (e) => {
@@ -18,8 +15,9 @@ const MoreData = ({ loadedElements, setLoadedElements }) => {
   };
 
   useEffect(() => {
-    loadMoreBooks();
     window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <span name="moreData" />;

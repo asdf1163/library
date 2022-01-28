@@ -1,17 +1,14 @@
-// import { useEffect } from "react";
-// import { fetchSearchData } from "../common/redux/search/searchAction";
-import { connect } from "react-redux";
 import MoreData from "./MoreData";
 
-const SearchResaults = ({ searchData, loadedElements, setLoadedElements }) => {
+const SearchResaults = ({ searchData, setLoadedElements }) => {
   return (
     <div className="main">
-      {searchData.books && searchData.books ? (
+      {searchData && searchData.books ?(
         <>
           {searchData.books.map((book) => (
-            <div className="book" key={`${book.id + book.etag}container`}>
-              <div className="container">
-                <div className="container__cover">
+            <div className="container" key={`${book.id + book.etag}container`}>
+              <div className="book">
+                <div className="book__cover">
                   {book.volumeInfo.imageLinks ? (
                     <img
                       key={book.volumeInfo.id + "image"}
@@ -26,12 +23,13 @@ const SearchResaults = ({ searchData, loadedElements, setLoadedElements }) => {
                     />
                   )}
                 </div>
-                <div className="container__details">
-                  <div className="container__title">
-                    {book.volumeInfo.title}
+                <div className="book__details">
+                  <div className="book__title">{book.volumeInfo.title}</div>
+                  <div className="book__subtitle">
+                    {book.volumeInfo.subtitle}
                   </div>
                   {book.volumeInfo.authors && (
-                    <div className="container__author">
+                    <div className="book__author">
                       {book.volumeInfo.authors.map((author, index) => {
                         return book.volumeInfo.authors.length - 1 !== index ? (
                           <span key={author + index}>{author + ","} </span>
@@ -41,7 +39,7 @@ const SearchResaults = ({ searchData, loadedElements, setLoadedElements }) => {
                       })}
                     </div>
                   )}
-                  <div className="container__description">
+                  <div className="book__description">
                     {book.volumeInfo.description}
                   </div>
                 </div>
@@ -49,28 +47,16 @@ const SearchResaults = ({ searchData, loadedElements, setLoadedElements }) => {
               <div className="lineBetween" />
             </div>
           ))}
-          <MoreData
-            loadedElements={loadedElements}
-            setLoadedElements={setLoadedElements}
-          />
+
+          <MoreData setLoadedElements={setLoadedElements} />
         </>
       ) : (
         <div className="nothing">
           <p className="nothing__information">Nothing has been found 😢</p>
-          {/* <MoreData
-            loadedElements={loadedElements}
-            setLoadedElements={setLoadedElements}
-          /> */}
         </div>
       )}
     </div>
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    searchData: state.searchList,
-  };
-};
-
-export default connect(mapStateToProps)(SearchResaults);
+export default SearchResaults;

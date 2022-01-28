@@ -1,12 +1,14 @@
 import {
   GET_DATA_QUERY,
+  UPDATE_QUERY_PARAMS,
   UPDATE_DATA_QUERY,
   SUCCESS_DATA_QUERY,
   FAILED_DATA_QUERY,
 } from "./searchType";
 
-const initial = {
+export const initial = {
   isLoading: false,
+  queryParams: { q: "*", startIndex: 0 },
   books: [],
   error: "",
 };
@@ -18,9 +20,16 @@ export const searchReducer = (state = initial, action) => {
         ...state,
         isLoading: true,
       };
+    case UPDATE_QUERY_PARAMS:
+      return {
+        ...state,
+        queryParams: {
+          q: action.payload.q,
+          startIndex: action.payload.startIndex,
+        },
+        books: state.books,
+      };
     case UPDATE_DATA_QUERY:
-      console.log('books',state.books)
-      console.log('payload',action.payload)
       return {
         ...state,
         isLoading: false,
@@ -36,7 +45,7 @@ export const searchReducer = (state = initial, action) => {
     case FAILED_DATA_QUERY:
       return {
         isLoading: false,
-        books: [],
+        books: state.books,
         error: action.payload,
       };
     default: {

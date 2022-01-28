@@ -1,67 +1,62 @@
 import "./AdvanceSearch.css";
+import { useState } from "react";
 import { BiSearch } from "react-icons/bi";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import languageList from "../common/language.json";
 
-const AdvanceSearch = ({
-  setAdvanceSearch,
-  createQueryBasic,
-  fetchSearchData,
-}) => {
-
-  const dataType = [
-    {
-      inintal: "+",
-      type: "intitle:",
-    },
-    {
-      inintal: "+",
-      type: "inauthor:",
-    },
-    {
-      inintal: "&",
-      type: "langRestrict",
-    },
-    {
-      inintal: "&",
-      type: "orderBy",
-    },
-  ];
+const AdvanceSearch = ({ setAdvanceSearch, createQueryBasic }) => {
+  const [correctnessTitle, setCorrectnessTitle] = useState(false);
+  const [correctnessAuthor, setCorrectnessAuthor] = useState(false);
 
   const createQueryAdvanced = (event) => {
     let add = false;
 
     event.preventDefault();
+    const dataConstruct = [
+      {
+        inital: "&",
+        type: "intitle:",
+        data: event.target.title.value.replace(" ", "+"),
+      },
+      {
+        inital: "&",
+        type: "inauthor:",
+        data: event.target.author.value.replace(" ", "+"),
+      },
+      {
+        inital: "&",
+        type: "langRestrict=",
+        data: event.target.language.value,
+      },
+      {
+        inital: "&",
+        type: "orderBy=",
+        data: event.target.orderBy.value,
+      },
+    ];
+
+    const title = event.target.title.value;
+    const author = event.target.author.value;
+
     let tempQuery = "";
-    const title = event.target.title.value.replace(" ", "+");
-    const author = event.target.author.value.replace(" ", "+");
-    const language = event.target.language.value;
-    const orderBy = event.target.orderBy.value;
+    dataConstruct.map(
+      (state) =>
+        state.data &&
+        (add
+          ? (tempQuery += state.inital + state.type + state.data)
+          : ((tempQuery += state.type + state.data), (add = true)))
+    );
 
-    if (title !== "") {
-      tempQuery += `intitle:${title}`;
-      add = true;
-    }
-    if (author !== "") {
-      if (add) tempQuery += `+inauthor:${author}`;
-      else {
-        tempQuery += `inauthor:${author}`;
-        add = true;
-      }
-    }
-    if (language !== "") {
-      if (add) tempQuery += `&langRestrict=${language}`;
-      else {
-        tempQuery += `langRestrict=${language}`;
-        add = true;
-      }
-    }
-    if (!add) console.log("Fill missing inputs");
-    else {
-      tempQuery += `&orderBy=${orderBy}`;
-
+    if (title.length >= 3 || author.length >= 3) {
       setAdvanceSearch(false);
-      return tempQuery;
+      return createQueryBasic(event, tempQuery);
+    } else {
+      if (title !== "" && title.length <= 3) {
+        setCorrectnessTitle(true);
+      }
+      if (author !== "" && author.length <= 3) {
+        setCorrectnessAuthor(true);
+      }
     }
   };
 
@@ -70,10 +65,7 @@ const AdvanceSearch = ({
       <div className="exitSign" onClick={() => setAdvanceSearch(false)}>
         <AiOutlineCloseCircle size={50} />
       </div>
-      <form
-        className="searchField"
-        onSubmit={(e) => createQueryBasic(e, createQueryAdvanced(e))}
-      >
+      <form className="searchField" onSubmit={createQueryAdvanced}>
         <label className="searchField--label">
           TITLE
           <input
@@ -82,6 +74,9 @@ const AdvanceSearch = ({
             className="searchField--fill"
             placeholder="Type title of a book..."
           />
+          {correctnessTitle && (
+            <span className="searchField--information">Min. 3 characters</span>
+          )}
         </label>
         <label className="searchField--label">
           AUTHOR
@@ -91,10 +86,17 @@ const AdvanceSearch = ({
             className="searchField--fill"
             placeholder="Type authors of a book..."
           />
+          {correctnessAuthor && (
+            <span className="searchField--information">Min. 3 characters</span>
+          )}
         </label>
         <label className="searchField--label">
           LANGUAGE
-          <select name="language" className="searchField--fill">
+          <select
+            defaultValue="en"
+            name="language"
+            className="searchField--fill"
+          >
             {languageList.map((state) => (
               <option key={state.countryCode} value={state.countryCode}>
                 {state.countryName}
