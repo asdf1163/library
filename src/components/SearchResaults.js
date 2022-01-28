@@ -1,8 +1,6 @@
 import MoreData from "./MoreData";
 
 const SearchResaults = ({ searchData, setLoadedElements }) => {
-
-  const data = "Lorem ipsum asdf asdfklj cos bla"
   const truncateWords = (data) => {
       const dataSplit = data.split(" ")
       const sliceTable = dataSplit.slice(0,40)
